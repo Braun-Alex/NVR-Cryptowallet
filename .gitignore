@@ -44,4 +44,5 @@
 /NVR Contract/Address.sol
 /NVR Installer/packages/com.thealexbrauncompany.nvrcryptowallet/data
 /NVR Server/node_modules
+/NVR Server/package.json
 /NVR Server/package-lock.json
