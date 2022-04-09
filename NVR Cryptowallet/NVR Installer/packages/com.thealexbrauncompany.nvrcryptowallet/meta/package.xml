@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>NVR Cryptowallet</DisplayName>
+    <Description>Decentralized Ethereum based application. Permits to interact with ERC-20 tokens called "NeverEver"</Description>
+    <Version>1.0</Version>
+    <ReleaseDate>2022-04-05</ReleaseDate>
+	<Name>com.thealexbrauncompany.nvrcryptowallet</Name>
+	<Licenses>
+        <License name="NVR Cryptowallet License Agreement" file="license.txt" />
+    </Licenses>
+    <Default>true</Default>
+	<Script>installscript.qs</Script>
+</Package>

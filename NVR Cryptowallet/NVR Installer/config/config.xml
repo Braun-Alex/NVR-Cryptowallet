@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>NVR Cryptowallet</Name>
+    <Version>1.0</Version>
+    <Title>NVR Cryptowallet</Title>
+    <Publisher>The Alex Braun Company</Publisher>
+	<RunProgram>@TargetDir@/NVR Cryptowallet/NVR Cryptowallet.exe</RunProgram>
+	<WizardStyle>Modern</WizardStyle>
+	<StartMenuDir>NVR Cryptowallet</StartMenuDir>
+    <TargetDir>@ApplicationsDir@/NVR Cryptowallet</TargetDir>
+	<MaintenanceToolName>NVR Maintenance Tool</MaintenanceToolName>
+	<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
+</Installer>
