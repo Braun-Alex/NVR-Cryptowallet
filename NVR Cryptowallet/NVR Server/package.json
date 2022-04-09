@@ -4,7 +4,6 @@
     "big-number": "^2.0.0",
     "bn": "^1.0.5",
     "cjs": "^0.0.11",
-    "dotenv": "^16.0.0",
     "ethereumjs-util": "^7.1.4",
     "ethers": "^5.5.4",
     "fs": "^0.0.1-security",
