@@ -1,11 +1,20 @@
 #include "account_handler.h"
 #include "resources.h"
+
+
+
 Account_Handler::Account_Handler(QObject* parent): QObject(parent),
 email_validator("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}") {}
+
+
+
 bool Account_Handler::checkEmailCorrectness(const QString &email)
 {
 return email_validator.match(email).hasMatch();
 }
+
+
+
 bool Account_Handler::checkUserExisting(const QString &email)
 {
 User user;
@@ -13,22 +22,25 @@ user.email=email;
 bool check=qx::dao::exist(user);
 if (check)
 {
-Inactivated_User inactivated_user;
-inactivated_user.email=email;
-if (qx::dao::exist(inactivated_user))
-{
-qx::dao::fetch_by_id(inactivated_user);
-if (QDateTime::currentDateTimeUtc().toSecsSinceEpoch()-
-    inactivated_user.registering_moment.toSecsSinceEpoch()>seconds_in_day)
-{
-check=inactivated_user.active_status;
-if (!check) qx::dao::destroy_by_id(user);
-qx::dao::destroy_by_id(inactivated_user);
-}
-}
+    Inactivated_User inactivated_user;
+    inactivated_user.email=email;
+    if (qx::dao::exist(inactivated_user))
+    {
+        qx::dao::fetch_by_id(inactivated_user);
+        if (QDateTime::currentDateTimeUtc().toSecsSinceEpoch()-
+        inactivated_user.registering_moment.toSecsSinceEpoch()>seconds_in_day)
+        {
+            check=inactivated_user.active_status;
+            if (!check) qx::dao::destroy_by_id(user);
+                qx::dao::destroy_by_id(inactivated_user);
+        }
+    }
 }
 return check;
 }
+
+
+
 bool Account_Handler::checkWalletExisting(const QString &wallet_address,
                                           const QString &email)
 {
@@ -37,11 +49,14 @@ cryptowallet.wallet_address=wallet_address;
 bool check=qx::dao::exist(cryptowallet);
 if (check)
 {
-qx::dao::fetch_by_id(cryptowallet);
-check=(cryptowallet.email==email);
+    qx::dao::fetch_by_id(cryptowallet);
+    check=(cryptowallet.email==email);
 }
 return check;
 }
+
+
+
 bool Account_Handler::signIn(const QString &email,
                              const QString &password)
 {
@@ -50,6 +65,9 @@ user.email=email;
 qx::dao::fetch_by_id(user);
 return email==QString(decrypt(user.password, password, vector_phrase));
 }
+
+
+
 void Account_Handler::changePassword(const QString &email,
                                      const QString &new_password)
 {
@@ -59,6 +77,9 @@ qx::dao::fetch_by_id(user);
 user.password=encrypt(email, new_password, vector_phrase);
 qx::dao::update(user);
 }
+
+
+
 bool Account_Handler::recoverAccount(const QString &email)
 {
 QRandomGenerator password_generator=QRandomGenerator::securelySeeded();
@@ -70,6 +91,9 @@ bool hasBeenSent=sendNewPasswordMessage(email, new_password);
 if (hasBeenSent) changePassword(email, new_password);
 return hasBeenSent;
 }
+
+
+
 bool Account_Handler::verifyRecoveringRequest(const QString &email)
 {
 QRandomGenerator verification_generator=QRandomGenerator::securelySeeded();
@@ -80,14 +104,17 @@ QString::number(verification_generator.bounded(0, 9)));
 bool hasBeenSent=sendRecoveringMessage(email, verification_number);
 if (hasBeenSent)
 {
-Inactivated_User inactivated_user;
-inactivated_user.email=email;
-inactivated_user.verification_number=encrypt(email, verification_number, vector_phrase);
-inactivated_user.active_status=true;
-qx::dao::insert(inactivated_user);
+    Inactivated_User inactivated_user;
+    inactivated_user.email=email;
+    inactivated_user.verification_number=encrypt(email, verification_number, vector_phrase);
+    inactivated_user.active_status=true;
+    qx::dao::insert(inactivated_user);
 }
 return hasBeenSent;
 }
+
+
+
 bool Account_Handler::signUp(const QString &email,
                              const QString &password)
 {
@@ -99,18 +126,21 @@ QString::number(verification_generator.bounded(0, 9)));
 bool hasBeenSent=sendVerificationMessage(email, verification_number);
 if (hasBeenSent)
 {
-Inactivated_User inactivated_user;
-User user;
-inactivated_user.email=email;
-user.email=email;
-user.password=encrypt(email, password, vector_phrase);
-inactivated_user.verification_number=encrypt(email, verification_number, vector_phrase);
-inactivated_user.active_status=false;
-qx::dao::insert(inactivated_user);
-qx::dao::insert(user);
+    Inactivated_User inactivated_user;
+    User user;
+    inactivated_user.email=email;
+    user.email=email;
+    user.password=encrypt(email, password, vector_phrase);
+    inactivated_user.verification_number=encrypt(email, verification_number, vector_phrase);
+    inactivated_user.active_status=false;
+    qx::dao::insert(inactivated_user);
+    qx::dao::insert(user);
 }
 return hasBeenSent;
 }
+
+
+
 bool Account_Handler::sendVerificationMessage(const QString &email,
                                               const QString &verification_number)
 {
@@ -143,6 +173,9 @@ bool hasBeenSent=smtp.connectToHost()&&smtp.login()&&smtp.sendMail(message);
 smtp.quit();
 return hasBeenSent;
 }
+
+
+
 bool Account_Handler::sendRecoveringMessage(const QString &email,
                                             const QString &verification_number)
 {
@@ -175,6 +208,9 @@ bool hasBeenSent=smtp.connectToHost()&&smtp.login()&&smtp.sendMail(message);
 smtp.quit();
 return hasBeenSent;
 }
+
+
+
 bool Account_Handler::sendNewPasswordMessage(const QString &email,
                                              const QString &new_password)
 {
@@ -202,6 +238,9 @@ bool hasBeenSent=smtp.connectToHost()&&smtp.login()&&smtp.sendMail(message);
 smtp.quit();
 return hasBeenSent;
 }
+
+
+
 bool Account_Handler::checkUserActivity(const QString &email)
 {
 Inactivated_User inactivated_user;
@@ -210,12 +249,18 @@ if (!qx::dao::exist(inactivated_user)) return true;
 qx::dao::fetch_by_id(inactivated_user);
 return inactivated_user.active_status;
 }
+
+
+
 bool Account_Handler::checkUserVerifyingStatus(const QString &email)
 {
 Inactivated_User inactivated_user;
 inactivated_user.email=email;
 return qx::dao::exist(inactivated_user);
 }
+
+
+
 bool Account_Handler::checkVerificationNumber(const QString &email,
                                               const QString &number)
 {
@@ -226,11 +271,14 @@ bool hasBeenVerificated=(email==QString(decrypt(inactivated_user.verification_nu
 number, vector_phrase)));
 if (hasBeenVerificated)
 {
-if (inactivated_user.active_status) recoverAccount(email);
-qx::dao::destroy_by_id(inactivated_user);
+    if (inactivated_user.active_status) recoverAccount(email);
+        qx::dao::destroy_by_id(inactivated_user);
 }
 return hasBeenVerificated;
 }
+
+
+
 QString Account_Handler::decryptWallet(const QString &wallet_address,
                                        const QString &wallet_password)
 {
@@ -239,6 +287,9 @@ cryptowallet.wallet_address=wallet_address;
 qx::dao::fetch_by_id(cryptowallet);
 return QString(decrypt(cryptowallet.private_key, wallet_password, vector_phrase));
 }
+
+
+
 bool Account_Handler::getUserVipStatus(const QString &email)
 {
 User user;
@@ -246,6 +297,9 @@ user.email=email;
 qx::dao::fetch_by_id(user);
 return user.vip_status;
 }
+
+
+
 void Account_Handler::assignUserVipStatus(const QString &email)
 {
 User user;
@@ -254,6 +308,9 @@ qx::dao::fetch_by_id(user);
 user.vip_status=true;
 qx::dao::update(user);
 }
+
+
+
 void Account_Handler::addWallet(const QString &wallet_address,
                                  const QString &private_key,
                                  const QString &wallet_password,
@@ -265,6 +322,9 @@ cryptowallet.private_key=encrypt(private_key, wallet_password, vector_phrase);
 cryptowallet.email=email;
 qx::dao::insert(cryptowallet);
 }
+
+
+
 bool Account_Handler::containsWallet(const QString &wallet_address,
                                      const QString &email)
 {
@@ -273,11 +333,14 @@ cryptowallet.wallet_address=wallet_address;
 bool doesContain=qx::dao::exist(cryptowallet);
 if (doesContain)
 {
-qx::dao::fetch_by_id(cryptowallet);
-doesContain=(email==cryptowallet.email);
+    qx::dao::fetch_by_id(cryptowallet);
+    doesContain=(email==cryptowallet.email);
 }
 return doesContain;
 }
+
+
+
 void Account_Handler::deleteWallet(const QString &wallet_address,
                                    const QString &email)
 {
@@ -285,6 +348,9 @@ Cryptowallet cryptowallet;
 cryptowallet.wallet_address=wallet_address;
 qx::dao::delete_by_id(cryptowallet);
 }
+
+
+
 void Account_Handler::connectToDatabase(const QString &driver,
                                         const QString &database,
                                         const QString &user,
@@ -299,20 +365,28 @@ qx::QxSqlDatabase::getSingleton()->setHostName(host);
 qx::QxSqlDatabase::getSingleton()->setPort(port);
 qx::QxSqlDatabase::getSingleton()->setPassword(password);
 }
+
+
+
 QByteArray Account_Handler::encrypt(const QString &text, const QString &passphrase,
                                     const QString &vector_phrase)
 {
-    return QAESEncryption::Crypt(QAESEncryption::AES_256, QAESEncryption::CBC,
-    text.toLocal8Bit(), QCryptographicHash::hash(passphrase.toLocal8Bit(),
-    QCryptographicHash::Sha256), QCryptographicHash::hash(
-    vector_phrase.toLocal8Bit(), QCryptographicHash::Md5));
+return QAESEncryption::Crypt(QAESEncryption::AES_256, 
+                             QAESEncryption::CBC,
+                             text.toLocal8Bit(), 
+                             QCryptographicHash::hash(passphrase.toLocal8Bit(), QCryptographicHash::Sha256), 
+                             QCryptographicHash::hash(vector_phrase.toLocal8Bit(), QCryptographicHash::Md5));
 }
+
+
+
 QByteArray Account_Handler::decrypt(const QByteArray &text, const QString &passphrase,
                                     const QString &vector_phrase)
 {
-    return QAESEncryption::RemovePadding(QAESEncryption::Decrypt(
-    QAESEncryption::AES_256, QAESEncryption::CBC,
-    text, QCryptographicHash::hash(passphrase.toLocal8Bit(),
-    QCryptographicHash::Sha256), QCryptographicHash::hash(
-    vector_phrase.toLocal8Bit(), QCryptographicHash::Md5)));
+return QAESEncryption::RemovePadding(
+       QAESEncryption::Decrypt(QAESEncryption::AES_256, 
+                               QAESEncryption::CBC, 
+                               text, 
+                               QCryptographicHash::hash(passphrase.toLocal8Bit(), QCryptographicHash::Sha256), 
+                               QCryptographicHash::hash(vector_phrase.toLocal8Bit(), QCryptographicHash::Md5)));
 }
