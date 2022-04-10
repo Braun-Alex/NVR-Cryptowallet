@@ -7,6 +7,9 @@ FetchContent_Declare(
   GIT_SHALLOW    1
 )
 FetchContent_MakeAvailable(Qaterial)
+
+
+
 project(Cryptowallet VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
@@ -15,8 +18,14 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(OPENSSL_USE_STATIC_LIBS ON)
+
+
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Sql Network REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Sql Network REQUIRED)
+
+
+
 set(PROJECT_SOURCES
     main.cpp
     resources.h
@@ -66,7 +75,10 @@ set(QXORM_LIB "${QXORM_DIR}/lib/libQxOrm.dll.a")
 set(POSTGRESQL_LIBS "${POSTGRESQL_DIR}/lib/")
 set(QXORM_INCLUDE_DIRS "${QXORM_DIR}/include")
 set(POSTGRESQL_INCLUDE_DIRS "${POSTGRESQL_DIR}/include")
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+
+
+
+if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(${PROJECT_NAME}
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES})
@@ -79,6 +91,9 @@ else()
           ${PROJECT_SOURCES})
     endif()
 endif()
+
+
+
 target_include_directories(${PROJECT_NAME} PUBLIC ${QXORM_INCLUDE_DIRS}
                                                   ${POSTGRESQL_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME}
@@ -91,6 +106,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${QXORM_LIB}
     ${POSTGRESQL_LIBS}
     Qaterial)
+    
+    
+    
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -98,6 +116,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+
+
+
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_import_qml_plugins(${PROJECT_NAME})
     qt_finalize_executable(${PROJECT_NAME})
