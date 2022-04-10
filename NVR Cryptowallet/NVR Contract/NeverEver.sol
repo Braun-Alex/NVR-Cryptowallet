@@ -338,7 +338,7 @@ contract NeverEver is IERC20Internal, EIP3009, EIP2612
         require(this.balanceOf(from) >= value, "NeverEver.gassLessSell: you do not have enough NVR tokens!");
         require(value >= (10**this.decimals()).div(pricePerNVR), "NeverEver.gassLessSell: amount is little to sell!");
         uint256 weiAmount = value.mul(pricePerNVR);
-        weiAmount = weiAmount.div(10** this.decimals());
+        weiAmount = weiAmount.div(10**this.decimals());
         require(address(this).balance >= weiAmount, "NeverEver.gassLessSell: contract has not enough ethers. Try to call function later!");
         transferWithAuthorization(from, _owner, value, validAfter, validBefore, nonce, v, r, s);
         payable(from).transfer(weiAmount);
