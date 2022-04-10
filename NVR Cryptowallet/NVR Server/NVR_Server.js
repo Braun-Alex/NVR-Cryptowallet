@@ -2,8 +2,11 @@ let WebSocketServer = require('ws')
 let {ethers, BigNumber} = require("ethers");
 const NVRArtifacts = require('./NeverEver.json');
 const Web3 = require("./node_modules/web3")
-const web3 = new Web3();
 var  ethJsUtil = require( "./node_modules/ethereumjs-util");
+
+
+
+const web3 = new Web3();
 const TRANSFER_WITH_AUTHORIZATION_TYPEHASH = web3.utils.keccak256(
     "TransferWithAuthorization(address from,address to,uint256 value,uint256 validAfter,uint256 validBefore,bytes32 nonce)"
 );
