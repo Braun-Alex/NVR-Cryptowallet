@@ -15,48 +15,58 @@ const provider = new ethers.providers.InfuraProvider(
 const addressContract = "0x6192595fB5ed0dbfaE1Aa7CB35D564e855D284aa";
 const addressOwner = "0x56016C78469aF1547B9aA5747F000ff9201B690f";
 const ownerPrivateKey = "Here is private key of my wallet";
-function strip0x(v){
+
+
+
+function strip0x(v)
+{
     return String(v).replace(/^0x/, "");
 }
 
-function hexStringFromBuffer(buf){
+
+
+function hexStringFromBuffer(buf)
+{
     return "0x" + buf.toString("hex");
 }
 
-function bufferFromHexString(hex){
+
+
+function bufferFromHexString(hex)
+{
     return Buffer.from(strip0x(hex), "hex");
 }
 
-function ecSign(digest, privateKey) {
-    const { v, r, s } = ethJsUtil.ecsign(
-        bufferFromHexString(digest),
-        bufferFromHexString(privateKey)
-    );
 
-    return { v, r: hexStringFromBuffer(r), s: hexStringFromBuffer(s) };
+
+function ecSign(digest, privateKey)
+{
+    const {v, r, s} = ethJsUtil.ecsign(
+    bufferFromHexString(digest),
+    bufferFromHexString(privateKey));
+    return {v, r: hexStringFromBuffer(r), s: hexStringFromBuffer(s)};
 }
+
+
+
 function signEIP712(
     domainSeparator,
     typeHash,
     types,
     parameters,
-    privateKey
-) {
+    privateKey)
+{
     const digest = web3.utils.keccak256(
-        "0x1901" +
-        strip0x(domainSeparator) +
-        strip0x(
-            web3.utils.keccak256(
-                web3.eth.abi.encodeParameters(
-                    ["bytes32", ...types],
-                    [typeHash, ...parameters]
-                )
-            )
-        )
-    );
-
+    "0x1901" + strip0x(domainSeparator) +
+    strip0x(
+    web3.utils.keccak256(
+    web3.eth.abi.encodeParameters(
+    ["bytes32", ...types],
+    [typeHash, ...parameters]))));
     return ecSign(digest, privateKey);
 }
+
+
 
 function signTransferAuthorization(
     from,
@@ -66,40 +76,46 @@ function signTransferAuthorization(
     validBefore,
     nonce,
     domainSeparator,
-    privateKey
-) {
+    privateKey)
+{
     return signEIP712(
-        domainSeparator,
-        TRANSFER_WITH_AUTHORIZATION_TYPEHASH,
-        ["address", "address", "uint256", "uint256", "uint256", "bytes32"],
-        [from, to, value, validAfter, validBefore, nonce],
-        privateKey
-    );
+    domainSeparator,
+    TRANSFER_WITH_AUTHORIZATION_TYPEHASH,
+    ["address", "address", "uint256", "uint256", "uint256", "bytes32"],
+    [from, to, value, validAfter, validBefore, nonce],
+    privateKey);
 }
-const gasLessSell = async(userSignerPrivateKey, amountToSell) => {
-    try {
-        amountToSell = ethers.utils.parseUnits(amountToSell.toString(), "ether");
+
+
+
+const gasLessSell = async(userSignerPrivateKey, amountToSell) =>
+{
+    try
+    {
+    amountToSell = ethers.utils.parseUnits(amountToSell.toString(), "ether");
     const MAX_UINT256 =
-        "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
     var nonce = web3.utils.randomHex(32);
     const user_signer = new ethers.Wallet(userSignerPrivateKey, provider);
     const owner_signer = new ethers.Wallet(ownerPrivateKey, provider);
     let baseNonce = provider.getTransactionCount(owner_signer.getAddress());
     let nonceOffset = 0;
-    function getNonce() {
+    function getNonce()
+    {
         return baseNonce.then((nonce) => (nonce + (nonceOffset++)));
     }
     var NVR = new ethers.Contract(addressContract, abi, owner_signer);
     var domainSeparator = await NVR.DOMAIN_SEPARATOR({nonce: getNonce()});
-    const transferParams = {
+    const transferParams =
+    {
         from: await user_signer.getAddress(),
         to: await owner_signer.getAddress(),
         value: amountToSell,
         validAfter: 0,
         validBefore: MAX_UINT256,
     };
-    const { from, to, value, validAfter, validBefore } = transferParams;
-    const { v, r, s } = signTransferAuthorization(
+    const {from, to, value, validAfter, validBefore} = transferParams;
+    const {v, r, s} = signTransferAuthorization(
         from,
         to,
         value,
@@ -107,9 +123,7 @@ const gasLessSell = async(userSignerPrivateKey, amountToSell) => {
         validBefore,
         nonce,
         domainSeparator,
-        userSignerPrivateKey
-    );
-
+        userSignerPrivateKey);
     var transaction = NVR.gassLessSell(from, to, value, validAfter, validBefore, nonce, v, r, s,{nonce: getNonce()});
     var sendTransactionPromise = await owner_signer.sendTransaction(transaction);
     const receipt = await sendTransactionPromise.wait();
@@ -120,121 +134,145 @@ const gasLessSell = async(userSignerPrivateKey, amountToSell) => {
     return "ERROR";
     }
 }
-const gasLessTransfer = async(userSignerPrivateKey, addressTo, amountToTransfer) => {
-    try {
-        amountToTransfer = ethers.utils.parseUnits(amountToTransfer.toString(), "ether");
-        const MAX_UINT256 =
-            "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
-        var nonce = web3.utils.randomHex(32);
-        const user_signer = new ethers.Wallet(userSignerPrivateKey, provider);
-        const owner_signer = new ethers.Wallet(ownerPrivateKey, provider);
-        let baseNonce = provider.getTransactionCount(owner_signer.getAddress());
-        let nonceOffset = 0;
-        function getNonce() {
-            return baseNonce.then((nonce) => (nonce + (nonceOffset++)));
-        }
-        var NVR = new ethers.Contract(addressContract, abi, owner_signer);
-        var domainSeparator = await NVR.DOMAIN_SEPARATOR({nonce: getNonce()});
-        const transferParams = {
-            from: await user_signer.getAddress(),
-            to: addressTo,
-            value: amountToTransfer,
-            validAfter: 0,
-            validBefore: MAX_UINT256,
-        };
-        const { from, to, value, validAfter, validBefore } = transferParams;
-        const { v, r, s } = signTransferAuthorization(
-            from,
-            to,
-            value,
-            validAfter,
-            validBefore,
-            nonce,
-            domainSeparator,
-            userSignerPrivateKey
-        );
 
-        var transaction = NVR.gassLessTransfer(from, to, value, validAfter, validBefore, nonce, v, r, s,{nonce: getNonce()});
-        var sendTransactionPromise = await owner_signer.sendTransaction(transaction);
-        const receipt = await sendTransactionPromise.wait();
-        return "DONE";
-    }
-    catch(error)
-    {
-    return "ERROR";
-    }
-}
-const transfer = async(signerPrivateKey, addressTo, amountToTransfer) => {
+
+
+const gasLessTransfer = async(userSignerPrivateKey, addressTo, amountToTransfer) =>
+{
     try
     {
-        const signer = new ethers.Wallet(signerPrivateKey, provider);
-        var NVR = new ethers.Contract(addressContract, abi, signer);
-        var transaction = await NVR.transfer(addressTo, ethers.utils.parseUnits(amountToTransfer.toString(), "ether"));
-        const receipt = await transaction.wait();
-        return "DONE";
+    amountToTransfer = ethers.utils.parseUnits(amountToTransfer.toString(), "ether");
+    const MAX_UINT256 =
+    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+    var nonce = web3.utils.randomHex(32);
+    const user_signer = new ethers.Wallet(userSignerPrivateKey, provider);
+    const owner_signer = new ethers.Wallet(ownerPrivateKey, provider);
+    let baseNonce = provider.getTransactionCount(owner_signer.getAddress());
+    let nonceOffset = 0;
+    function getNonce()
+    {
+        return baseNonce.then((nonce) => (nonce + (nonceOffset++)));
+    }
+    var NVR = new ethers.Contract(addressContract, abi, owner_signer);
+    var domainSeparator = await NVR.DOMAIN_SEPARATOR({nonce: getNonce()});
+    const transferParams =
+    {
+        from: await user_signer.getAddress(),
+        to: addressTo,
+        value: amountToTransfer,
+        validAfter: 0,
+        validBefore: MAX_UINT256,
+    };
+    const {from, to, value, validAfter, validBefore} = transferParams;
+    const {v, r, s} = signTransferAuthorization(
+        from,
+        to,
+        value,
+        validAfter,
+        validBefore,
+        nonce,
+        domainSeparator,
+        userSignerPrivateKey);
+    var transaction = NVR.gassLessTransfer(from, to, value, validAfter, validBefore, nonce, v, r, s,{nonce: getNonce()});
+    var sendTransactionPromise = await owner_signer.sendTransaction(transaction);
+    const receipt = await sendTransactionPromise.wait();
+    return "DONE";
     }
     catch(error)
     {
     return "ERROR";
     }
 }
-const buy = async(signerPrivateKey, amountToBuy) => {
-    try {
-        const signer = new ethers.Wallet(signerPrivateKey, provider);
-        let baseNonce = provider.getTransactionCount(signer.getAddress());
-        let nonceOffset = 0;
 
-        function getNonce() {
-            return baseNonce.then((nonce) => (nonce + (nonceOffset++)));
-        }
-        amountToBuy = ethers.utils.parseUnits(amountToBuy.toString(), "ether");
-        var NVR = new ethers.Contract(addressContract, abi, signer);
-        var amount = BigNumber.from(amountToBuy);
-        var price = await NVR.getPricePerNVR({nonce: getNonce()});
-        var _value = (amount.mul(BigNumber.from(price))).div("1000000000000000000");
-        var transaction = NVR.buy(amountToBuy, {value: _value.toString(), nonce: getNonce()});
-        var sendTransactionPromise = await signer.sendTransaction(transaction);
-        const receipt = await sendTransactionPromise.wait();
-        return "DONE";
+
+
+const transfer = async(signerPrivateKey, addressTo, amountToTransfer) =>
+{
+    try
+    {
+    const signer = new ethers.Wallet(signerPrivateKey, provider);
+    var NVR = new ethers.Contract(addressContract, abi, signer);
+    var transaction = await NVR.transfer(addressTo, ethers.utils.parseUnits(amountToTransfer.toString(), "ether"));
+    const receipt = await transaction.wait();
+    return "DONE";
     }
     catch(error)
     {
     return "ERROR";
     }
 }
-const sell = async(signerPrivateKey, amountToSell) => {
-    try {
-        amountToSell = ethers.utils.parseUnits(amountToSell.toString(), "ether");
-        const signer = new ethers.Wallet(signerPrivateKey, provider);
-        let baseNonce = provider.getTransactionCount(signer.getAddress());
-        let nonceOffset = 0;
 
-        function getNonce() {
-            return baseNonce.then((nonce) => (nonce + (nonceOffset++)));
-        }
 
-        var NVR = new ethers.Contract(addressContract, abi, signer);
-        var allowance = await NVR.allowance(signer.address, addressContract, {nonce: getNonce()});
-        console.log(allowance.toString());
-        console.log(BigNumber.from(allowance).lt(BigNumber.from(amountToSell)));
-        if (BigNumber.from(allowance).lt(BigNumber.from(amountToSell))) {
-                var tr = NVR.increaseAllowance(addressContract, amountToSell, {nonce: getNonce()});
-                var tx = await signer.sendTransaction(tr, {nonce: getNonce()});
-                const receipt = await tx.wait();
-        }
-        var transaction = NVR.sell(amountToSell, {nonce: getNonce(), gasLimit: "9000000"});
-        var sendTransactionPromise = await signer.sendTransaction(transaction);
-        const receipt = await sendTransactionPromise.wait();
-        return "DONE";
+
+const buy = async(signerPrivateKey, amountToBuy) =>
+{
+    try
+    {
+    const signer = new ethers.Wallet(signerPrivateKey, provider);
+    let baseNonce = provider.getTransactionCount(signer.getAddress());
+    let nonceOffset = 0;
+    function getNonce()
+    {
+        return baseNonce.then((nonce) => (nonce + (nonceOffset++)));
+    }
+    amountToBuy = ethers.utils.parseUnits(amountToBuy.toString(), "ether");
+    var NVR = new ethers.Contract(addressContract, abi, signer);
+    var amount = BigNumber.from(amountToBuy);
+    var price = await NVR.getPricePerNVR({nonce: getNonce()});
+    var _value = (amount.mul(BigNumber.from(price))).div("1000000000000000000");
+    var transaction = NVR.buy(amountToBuy, {value: _value.toString(), nonce: getNonce()});
+    var sendTransactionPromise = await signer.sendTransaction(transaction);
+    const receipt = await sendTransactionPromise.wait();
+    return "DONE";
     }
     catch(error)
     {
     return "ERROR";
     }
 }
+
+
+
+const sell = async(signerPrivateKey, amountToSell) =>
+{
+    try
+    {
+    amountToSell = ethers.utils.parseUnits(amountToSell.toString(), "ether");
+    const signer = new ethers.Wallet(signerPrivateKey, provider);
+    let baseNonce = provider.getTransactionCount(signer.getAddress());
+    let nonceOffset = 0;
+    function getNonce()
+    {
+        return baseNonce.then((nonce) => (nonce + (nonceOffset++)));
+    }
+    var NVR = new ethers.Contract(addressContract, abi, signer);
+    var allowance = await NVR.allowance(signer.address, addressContract, {nonce: getNonce()});
+    console.log(allowance.toString());
+    console.log(BigNumber.from(allowance).lt(BigNumber.from(amountToSell)));
+    if (BigNumber.from(allowance).lt(BigNumber.from(amountToSell)))
+    {
+    var tr = NVR.increaseAllowance(addressContract, amountToSell, {nonce: getNonce()});
+    var tx = await signer.sendTransaction(tr, {nonce: getNonce()});
+    const receipt = await tx.wait();
+    }
+    var transaction = NVR.sell(amountToSell, {nonce: getNonce(), gasLimit: "9000000"});
+    var sendTransactionPromise = await signer.sendTransaction(transaction);
+    const receipt = await sendTransactionPromise.wait();
+    return "DONE";
+    }
+    catch(error)
+    {
+    return "ERROR";
+    }
+}
+
+
+
 const wss = new WebSocketServer.WebSocketServer({port: 80});
-wss.on("connection", (ws) => {
-    ws.on("message", async(data) => {
+wss.on("connection", (ws) =>
+{
+    ws.on("message", async(data) =>
+    {
         let request = JSON.parse(data)
         var response;
         switch (request.command)
@@ -248,6 +286,6 @@ wss.on("connection", (ws) => {
             case 'gasLessTransfer': response = await gasLessTransfer(request.accountPrivateKey,
                 request.addressTo, request.sum); break;
         }
-            ws.send(response);
+        ws.send(response);
     });
 });
