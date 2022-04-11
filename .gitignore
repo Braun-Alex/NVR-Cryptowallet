@@ -1,48 +1,50 @@
-/NVR Client/aesni/aesni-enc-cbc.h
-/NVR Client/aesni/aesni-enc-ebc.h
-/NVR Client/aesni/aesni-key-exp.h
-/NVR Client/cryptography/qaesencryption.h
-/NVR Client/cryptography/qaesencryption.cpp
-/NVR Client/nvr/abi.js
-/NVR Client/nvr/web3.js
-/NVR Client/nvr/utils.h
-/NVR Client/nvr/utils.cpp
-/NVR Client/smtp/SmtpMime
-/NVR Client/smtp/emailaddress.h
-/NVR Client/smtp/emailaddress.cpp
-/NVR Client/smtp/mimeattachment.h
-/NVR Client/smtp/mimeattachment.cpp
-/NVR Client/smtp/mimecontentformatter.h
-/NVR Client/smtp/mimecontentformatter.cpp
-/NVR Client/smtp/mimefile.h
-/NVR Client/smtp/mimefile.cpp
-/NVR Client/smtp/mimehtml.h
-/NVR Client/smtp/mimehtml.cpp
-/NVR Client/smtp/mimeinlinefile.h
-/NVR Client/smtp/mimeinlinefile.cpp
-/NVR Client/smtp/mimemessage.h
-/NVR Client/smtp/mimemessage.cpp
-/NVR Client/smtp/mimemultipart.h
-/NVR Client/smtp/mimemultipart.cpp
-/NVR Client/smtp/mimepart.h
-/NVR Client/smtp/mimepart.cpp
-/NVR Client/smtp/mimetext.h
-/NVR Client/smtp/mimetext.cpp
-/NVR Client/smtp/quotedprintable.h
-/NVR Client/smtp/quotedprintable.cpp
-/NVR Client/smtp/smtpexports.h
-/NVR Client/smtp/smtpclient.h
-/NVR Client/smtp/smtpclient.cpp
-/NVR Client/CMakeLists.txt.user
-/NVR Contract/ECRecover.sol
-/NVR Contract/IERC20Internal.sol
-/NVR Contract/EIP712Domain.sol
-/NVR Contract/EIP712.sol
-/NVR Contract/EIP2612.sol
-/NVR Contract/EIP3009.sol
-/NVR Contract/SafeMath.sol
-/NVR Contract/Address.sol
-/NVR Installer/packages/com.thealexbrauncompany.nvrcryptowallet/data
-/NVR Server/node_modules
-/NVR Server/package.json
-/NVR Server/package-lock.json
+/NVR Cryptowallet/NVR Client/aesni/aesni-enc-cbc.h
+/NVR Cryptowallet/NVR Client/aesni/aesni-enc-ebc.h
+/NVR Cryptowallet/NVR Client/aesni/aesni-key-exp.h
+/NVR Cryptowallet/NVR Client/cryptography/qaesencryption.h
+/NVR Cryptowallet/NVR Client/cryptography/qaesencryption.cpp
+/NVR Cryptowallet/NVR Client/nvr/abi.js
+/NVR Cryptowallet/NVR Client/nvr/web3.js
+/NVR Cryptowallet/NVR Client/nvr/neverever.js
+/NVR Cryptowallet/NVR Client/nvr/utils.h
+/NVR Cryptowallet/NVR Client/nvr/utils.cpp
+/NVR Cryptowallet/NVR Client/smtp/SmtpMime
+/NVR Cryptowallet/NVR Client/smtp/emailaddress.h
+/NVR Cryptowallet/NVR Client/smtp/emailaddress.cpp
+/NVR Cryptowallet/NVR Client/smtp/mimeattachment.h
+/NVR Cryptowallet/NVR Client/smtp/mimeattachment.cpp
+/NVR Cryptowallet/NVR Client/smtp/mimecontentformatter.h
+/NVR Cryptowallet/NVR Client/smtp/mimecontentformatter.cpp
+/NVR Cryptowallet/NVR Client/smtp/mimefile.h
+/NVR Cryptowallet/NVR Client/smtp/mimefile.cpp
+/NVR Cryptowallet/NVR Client/smtp/mimehtml.h
+/NVR Cryptowallet/NVR Client/smtp/mimehtml.cpp
+/NVR Cryptowallet/NVR Client/smtp/mimeinlinefile.h
+/NVR Cryptowallet/NVR Client/smtp/mimeinlinefile.cpp
+/NVR Cryptowallet/NVR Client/smtp/mimemessage.h
+/NVR Cryptowallet/NVR Client/smtp/mimemessage.cpp
+/NVR Cryptowallet/NVR Client/smtp/mimemultipart.h
+/NVR Cryptowallet/NVR Client/smtp/mimemultipart.cpp
+/NVR Cryptowallet/NVR Client/smtp/mimepart.h
+/NVR Cryptowallet/NVR Client/smtp/mimepart.cpp
+/NVR Cryptowallet/NVR Client/smtp/mimetext.h
+/NVR Cryptowallet/NVR Client/smtp/mimetext.cpp
+/NVR Cryptowallet/NVR Client/smtp/quotedprintable.h
+/NVR Cryptowallet/NVR Client/smtp/quotedprintable.cpp
+/NVR Cryptowallet/NVR Client/smtp/smtpexports.h
+/NVR Cryptowallet/NVR Client/smtp/smtpclient.h
+/NVR Cryptowallet/NVR Client/smtp/smtpclient.cpp
+/NVR Cryptowallet/NVR Client/CMakeLists.txt.user
+/NVR Cryptowallet/NVR Contract/ECRecover.sol
+/NVR Cryptowallet/NVR Contract/IERC20Internal.sol
+/NVR Cryptowallet/NVR Contract/EIP712Domain.sol
+/NVR Cryptowallet/NVR Contract/EIP712.sol
+/NVR Cryptowallet/NVR Contract/EIP2612.sol
+/NVR Cryptowallet/NVR Contract/EIP3009.sol
+/NVR Cryptowallet/NVR Contract/SafeMath.sol
+/NVR Cryptowallet/NVR Contract/Address.sol
+/NVR Cryptowallet/NVR Installer/packages/com.thealexbrauncompany.nvrcryptowallet/data
+/NVR Cryptowallet/NVR Server/node_modules
+/NVR Cryptowallet/NVR Server/package.json
+/NVR Cryptowallet/NVR Server/package-lock.json
+/NVR Cryptowallet/NVR Server/NeverEver.json
