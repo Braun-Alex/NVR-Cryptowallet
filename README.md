@@ -81,4 +81,4 @@ the interfaces.
 - [x] Private key of any cryptowallet is always known to the user.
 - [x] Stunning graphical user experience.
 - [x] High security standards for private data.
-- [x] Encrypting and decrypting all the important data on client side.
+- [x] Encrypting and decrypting all the important data on the client side.
