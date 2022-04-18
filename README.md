@@ -20,7 +20,7 @@ called "NeverEver".
 
 **Token standard:** ERC-20.
 
-**Application:** Qt, QML, C++, JavaScript, Qaterial, 
+**Application:** Qt, QML, C++, JavaScript, CMake, Qaterial, 
 QxOrm, QAESEncryption, SMTP Client for Qt.
 
 **Installer:** Qt Installer Framework.
