@@ -74,3 +74,11 @@ the interfaces.
 | `Transfer`        | Transferring *NVR tokens* to wallet by its ***address***.                           |
 | `Buy`             | Buying *NVR tokens*.                                                                |
 | `Sell`            | Selling *NVR tokens*.                                                               |
+
+## ⚡️ Features
+
+- [x] Open-source decentralized solution.
+- [x] Private key of any cryptowallet is always known to the user.
+- [x] Stunning graphical user experience.
+- [x] High security standards for private data.
+- [x] Encrypting and decrypting all the important data on client side.
