@@ -48,7 +48,7 @@ the interfaces.
 | :---------------- | :---------------------------------------------------------------------------------- |
 | `Sign in`         | **Verificated account**.                                                            |
 | `Sign up`         | **Email** and **password**. Verification **required**.                              |
-| `Verify`          | **Email** and **verification number**. The number is available within **24 hours**. |
+| `Verify account`  | **Email** and **verification number**. The number is available within **24 hours**. |
 | `Change password` | **Verificated account**.                                                            |
 | `Recover account` | **Access to verificated email**.                                                    |
 | `Exit`            | No requirements.
