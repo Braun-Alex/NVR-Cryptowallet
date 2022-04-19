@@ -84,3 +84,9 @@ the interfaces.
 - [x] Stunning graphical user experience.
 - [x] High security standards for private data.
 - [x] Encrypting and decrypting all the important data on the client side.
+
+## 📌 Screenshots
+
+### Account interface
+
+![Account interface](./docs/account_menu.png)
