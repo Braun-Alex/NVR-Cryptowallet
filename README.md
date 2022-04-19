@@ -89,4 +89,80 @@ the interfaces.
 
 ### Account interface
 
-![Account interface](./docs/account_menu.png)
+![account_menu](./docs/account_menu.png)
+
+### Sign in
+
+![sign_in](./docs/signing_in.png)
+
+### Sign up
+
+![signing_up](./docs/signing_up.png)
+
+### Verify account
+
+![account verification](./docs/account_verification.png)
+
+### Change password
+
+![password_changing](./docs/password_changing.png)
+
+### Recover account
+
+![account_recovering](./docs/account_recovering.png)
+
+### Wallet interface
+
+![wallet_menu](./docs/wallet_menu.png)
+
+### Decrypt wallet without its password
+
+![decrypting_wallet_without_its_password](./docs/decrypting_wallet_without_its_password.png)
+
+### Decrypt wallet with its password
+
+![decrypting_wallet_with_its_password](./docs/decrypting_wallet_with_its_password.png)
+
+### Create wallet without password encryption
+
+![creating_wallet_without_password_encryption](./docs/creating_wallet_without_password_encryption.png)
+
+### Create wallet with password encryption
+
+![creating_wallet_with_password_encryption](./docs/creating_wallet_with_password_encryption.png)
+
+### Import wallet without password encryption
+
+![importing_wallet_without_password_encryption](./docs/importing_wallet_without_password_encryption.png)
+
+### Import wallet with password encryption
+
+![importing_wallet_with_password_encryption](./docs/importing_wallet_with_password_encryption.png)
+
+### Delete wallet
+
+![deleting_wallet](./docs/deleting_wallet.png)
+
+### Buy VIP status without wallet password decryption
+
+![buying_vip_status_without_wallet_password_decryption](./docs/buying_vip_status_without_wallet_password_decryption.png)
+
+### Buy VIP status with wallet password decryption
+
+![buying_vip_status_with_wallet_password_decryption](./docs/buying_vip_status_with_wallet_password_decryption.png)
+
+### View wallet settings
+
+![wallet_settings](./docs/wallet_settings.png)
+
+### Transfer NVR tokens
+
+![transferring_nvr_tokens](./docs/transferring_nvr_tokens.png)
+
+### Buy NVR tokens
+
+![buying_nvr_tokens](./docs/buying_nvr_tokens.png)
+
+### Sell NVR tokens
+
+![selling_nvr_tokens](./docs/selling_nvr_tokens.png)
