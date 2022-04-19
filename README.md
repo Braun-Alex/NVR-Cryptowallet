@@ -60,13 +60,14 @@ the interfaces.
 | `Encrypt wallet`  | **Created** or **imported** wallet.                                                 |
 | `Create wallet`   | No requirements. Password for **wallet** is *optional*.                             |
 | `Import wallet`   | **Wallet private key**. Password for **wallet** is *optional*.                      |
-| `Buy VIP status`  | **Wallet address** and **not less than 33 NVR** on any existing cryptowallet.       |
+| `Buy VIP status`  | **Wallet address** and **not less than 33 NVR tokens** on any existing cryptowallet.       |
 | `Delete wallet`   | **Wallet address**.                                                                 |
 | `Log out`         | No requirements.                                                                    |
 
 > Notice: creating wallet takes place on blockchain.
 > Importing wallet must already exist on blockchain.
 > Deleting wallet takes place only on NVR Cryptowallet database.
+> VIP status permits to have opportunity to transfer and sell NVR tokens **without commission**.
 #### Token interface
 
 | Page              | Description                                                                         |
