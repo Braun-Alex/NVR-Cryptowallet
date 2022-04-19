@@ -166,3 +166,7 @@ the interfaces.
 ### Sell NVR tokens
 
 ![selling_nvr_tokens](./docs/selling_nvr_tokens.png)
+
+## Authors
+
+- [Alex Braun](https://github.com/Braun-Alex)
