@@ -38,7 +38,7 @@ NVR Cryptowallet permits to manage
 unique ERC-20 based token "NeverEver". It
 achieves by the main interface with interacting
 with the token and two
-additional - account and cryptowallet interfaces.
+additional - account and wallet interfaces.
 Here is detailed information about all
 the interfaces.
 
@@ -53,7 +53,7 @@ the interfaces.
 | `Recover account` | **Access to verificated email**.                                                    |
 | `Exit`            | No requirements.
 
-#### Cryptowallet interface
+#### Wallet interface
 
 | Button            | Requirements                                                                        |
 | :---------------- | :---------------------------------------------------------------------------------- |
@@ -65,7 +65,7 @@ the interfaces.
 | `Log out`         | No requirements.                                                                    |
 
 > Notice: creating wallet takes place on blockchain.
-> Importing wallet must already exist on blockchain.
+> Importing wallet should already exist on blockchain.
 > Deleting wallet takes place only on NVR Cryptowallet database.
 > VIP status permits to have opportunity to transfer and sell NVR tokens **without commission**.
 #### Token interface
