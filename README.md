@@ -60,7 +60,7 @@ the interfaces.
 | `Encrypt wallet`  | **Created** or **imported** wallet.                                                 |
 | `Create wallet`   | No requirements. Password for **wallet** is *optional*.                             |
 | `Import wallet`   | **Wallet private key**. Password for **wallet** is *optional*.                      |
-| `Buy VIP status`  | **Wallet address** and **not less than 33 NVR tokens** on any existing cryptowallet.       |
+| `Buy VIP status`  | **Wallet address** and **not less than 33 NVR tokens** on any existing wallet.      |
 | `Delete wallet`   | **Wallet address**.                                                                 |
 | `Log out`         | No requirements.                                                                    |
 
